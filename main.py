@@ -12,22 +12,31 @@ class Sprite(object):
     def move(self):
         self.rect = self.rect.move(self.speed)
 
-    def check_collide_sprite(self, sprite_b):
-        pass
+    def check_collide_sprite(self, other):
+        if self.is_collission(other):
+            self.collide_sprite(other)
+
+    def is_collission(self, other):
+        left = self.rect.left < other.rect.right
+        right = self.rect.right > other.rect.left
+        top = self.rect.top < other.rect.bottom
+        bottom = self.rect.bottom > other.rect.top
+        is_collission = left and right and top and bottom
+        return is_collission
 
     def collide_sprite(self, other):
-        pass
+        print("COLLIDE")
 
-    def collide_left(self):
+    def collide_left_edge(self):
         self.bounce_horizontal()
 
-    def collide_right(self):
+    def collide_right_edge(self):
         self.bounce_horizontal()
 
-    def collide_top(self):
+    def collide_top_edge(self):
         self.bounce_vertical()
 
-    def collide_bottom(self):
+    def collide_bottom_edge(self):
         self.bounce_vertical()
 
     def bounce_horizontal(self):
@@ -38,13 +47,13 @@ class Sprite(object):
 
     def check_collide_edges(self, width, height):
         if self.rect.left < 0:
-            self.collide_left()
+            self.collide_left_edge()
         if self.rect.right > width:
-            self.collide_right()
+            self.collide_right_edge()
         if self.rect.top < 0:
-            self.collide_top()
+            self.collide_top_edge()
         if self.rect.bottom > height:
-            self.collide_bottom()
+            self.collide_bottom_edge()
 
     def display(self, surface):
         surface.blit(self.image, self.rect)
@@ -57,6 +66,9 @@ sprites = [
 
 pygame.init()
 size = width, height = 800, 480
+black = 0, 0, 0
+clock = pygame.time.Clock()
+
 
 def initialize():
     global black, screen
@@ -75,7 +87,7 @@ def initialize():
     # is_andrew_macbook = _node == "Andrews-MacBook-Pro.local"
     # is_scroll_bot = _node == "scrollbot"
     is_full_screen = is_linux
-    black = 0, 0, 0
+
     display_flags = 0
     if is_full_screen:
         display_flags += pygame.FULLSCREEN
@@ -86,6 +98,7 @@ initialize()
 
 while 1:
     for event in pygame.event.get():
+        print(event)
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
@@ -108,3 +121,4 @@ while 1:
     for sprite in sprites:
         sprite.display(screen)
     pygame.display.flip()
+    clock.tick(30)
