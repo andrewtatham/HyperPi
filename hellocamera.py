@@ -28,14 +28,18 @@ def camstream():
     capture = True
     while capture:
         frame = camera.get_image(frame)
-        screen = pygame.transform.scale(frame,screen_size, screen)
+        screen = pygame.transform.scale(frame, screen_size, screen)
         display.blit(screen, (0, 0))
         pygame.display.flip()
         for event in pygame.event.get():
-            if event.type == QUIT:
-                capture = False
-            elif event.type == KEYDOWN and event.key == K_s:
-                pygame.image.save(screen, FILENAME)
+            if event.type == KEYDOWN:
+                if event.key == K_s:
+                    capture = False
+                elif event.type == KEYDOWN:
+                    if event.key == K_s:
+                        pygame.image.save(screen, FILENAME)
+                    elif event.key == K_q:
+                        capture = False
     camera.stop()
     pygame.quit()
     return
