@@ -1,3 +1,5 @@
+import pprint
+
 import pygame
 import pygame.camera
 from pygame.locals import *
@@ -10,9 +12,16 @@ FILENAME = 'capture.png'
 def camstream():
     pygame.init()
     pygame.camera.init()
+
+    pprint.pprint(pygame.camera.list_cameras())
+
     display = pygame.display.set_mode(SIZE, pygame.FULLSCREEN)
     camera = pygame.camera.Camera(DEVICE, SIZE)
     camera.start()
+
+    actual_camera_size = camera.get_size()
+    pprint.pprint(actual_camera_size)
+
     screen = pygame.surface.Surface(SIZE, 0, display)
     capture = True
     while capture:
