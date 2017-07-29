@@ -12,6 +12,7 @@ FILENAME = 'capture.png'
 
 def camstream():
     pygame.init()
+    clock = pygame.time.Clock()
     pygame.camera.init()
 
     pprint.pprint(pygame.camera.list_cameras())
@@ -27,11 +28,7 @@ def camstream():
     frame = pygame.surface.Surface(camera_size, 0, display)
     capture = True
     while capture:
-        frame = camera.get_image(frame)
-        screen = pygame.transform.scale(frame, screen_size, screen)
-        screen = pygame.transform.flip(screen, True, False)
-        display.blit(screen, (0, 0))
-        pygame.display.flip()
+
         for event in pygame.event.get():
             if event.type == KEYDOWN:
                 if event.key == K_s:
@@ -41,6 +38,14 @@ def camstream():
                         pygame.image.save(screen, FILENAME)
                     elif event.key == K_q:
                         capture = False
+        if camera.query_image():
+            frame = camera.get_image(frame)
+            screen = pygame.transform.scale(frame, screen_size, screen)
+            screen = pygame.transform.flip(screen, True, False)
+            display.blit(screen, (0, 0))
+        pygame.display.flip()
+        dt = clock.tick(60)
+
     camera.stop()
     pygame.quit()
     return
