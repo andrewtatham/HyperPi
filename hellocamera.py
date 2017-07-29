@@ -3,14 +3,14 @@ import pygame.camera
 from pygame.locals import *
 
 DEVICE = '/dev/video0'
-SIZE = (640, 480)
+SIZE = (800, 480)
 FILENAME = 'capture.png'
 
 
 def camstream():
     pygame.init()
     pygame.camera.init()
-    display = pygame.display.set_mode(SIZE, 0)
+    display = pygame.display.set_mode(SIZE, pygame.FULLSCREEN)
     camera = pygame.camera.Camera(DEVICE, SIZE)
     camera.start()
     screen = pygame.surface.Surface(SIZE, 0, display)
