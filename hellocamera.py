@@ -41,14 +41,14 @@ def camstream():
                     elif event.key == K_q:
                         capture = False
         if camera.query_image():
-            frame = camera.get_image(frame)
+            camera.get_image(frame)
 
-            screen = pygame.transform.scale(frame, screen_size, screen)
-            screen = pygame.transform.flip(screen, True, False)
+            pygame.transform.scale(frame, screen_size, screen)
+            pygame.transform.flip(screen, True, False)
 
-            detect = pygame.transform.scale(screen, detect_size, detect)
-            detect = pygame.camera.colorspace(detect, "HSV", detect)
-            detect = pygame.transform.threshold(detect, detect, (0, 255, 0), (90, 170, 170), (0, 0, 0), 2)
+            pygame.transform.scale(screen, detect_size, detect)
+            pygame.camera.colorspace(detect, "HSV", detect)
+            pygame.transform.threshold(detect, detect, (0, 255, 0), (90, 170, 170), (0, 0, 0), 2)
             # display.blit(screen, (0, 0))
             display.blit(detect, (0, 0))
         pygame.display.flip()
