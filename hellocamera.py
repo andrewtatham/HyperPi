@@ -7,7 +7,7 @@ from pygame.locals import *
 DEVICE = '/dev/video0'
 screen_size = (800, 480)
 camera_size = (1280, 720)
-detect_size = (800, 480)
+detect_size = (200, 120)
 FILENAME = 'capture.png'
 
 
@@ -49,10 +49,11 @@ def camstream():
             pygame.transform.scale(screen, detect_size, detect)
             pygame.camera.colorspace(detect, "HSV", detect)
             # pygame.transform.threshold(detect, detect, (0, 255, 0), (90, 170, 170), (0, 0, 0), 2)
-            # display.blit(screen, (0, 0))
+
+            display.blit(screen, (0, 0))
             display.blit(detect, (0, 0))
         pygame.display.flip()
-        dt = clock.tick(60)
+        dt = clock.tick(10)
 
     camera.stop()
     pygame.quit()
