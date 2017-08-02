@@ -46,21 +46,21 @@ def camstream():
 
             pygame.transform.scale(frame, screen_size, screen)
             pygame.transform.flip(screen, True, False)
-
-            pygame.transform.scale(screen, detect_size, detect)
-            pygame.camera.colorspace(detect, "HSV", detect)
-
-            display.blit(screen, (0, 0))
-            display.blit(detect, detect_origin)
-
             # make a rect in the middle of the screen
             capture_rect = pygame.draw.rect(screen, (255, 0, 0), (145, 105, 30, 30), 4)
             # get the average color of the area inside the rect
             capture_colour = pygame.transform.average_color(screen, capture_rect)
-            # fill the upper left corner with that color
-            display.fill(capture_colour, (0, 0, 50, 50))
 
-            # pygame.transform.threshold(detect, detect, (0, 255, 0), (90, 170, 170), (0, 0, 0), 2)
+            pygame.transform.scale(screen, detect_size, detect)
+            pygame.camera.colorspace(detect, "HSV", detect)
+            pygame.transform.threshold(detect, detect, capture_colour, (90, 170, 170), (0, 0, 0), 2)
+
+            display.blit(screen, (0, 0))
+
+            # fill the upper left corner with that color
+            display.fill(capture_colour, (0, 0, 24, 24))
+
+            display.blit(detect, detect_origin)
 
         pygame.display.flip()
         dt = clock.tick(10)
