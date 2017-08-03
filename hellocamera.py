@@ -52,7 +52,8 @@ def camstream():
             capture_colour = pygame.transform.average_color(screen, capture_rect)
 
             pygame.transform.scale(screen, detect_size, detect)
-            pygame.transform.threshold(detect, detect, capture_colour, (90, 170, 170), (0, 0, 0), 2)
+            pygame.transform.laplacian(detect, detect)
+            # pygame.transform.threshold(detect, capture_colour, (90, 170, 170), (0, 0, 0), 2)
 
             display.blit(screen, (0, 0))
 
