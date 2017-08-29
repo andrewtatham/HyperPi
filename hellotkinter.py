@@ -25,7 +25,14 @@ class App:
         self.canvas.pack()
 
         self.on = BooleanVar(self.frame)
-        self.on_checkbox = Checkbutton(self.frame, text="on", variable=self.on)
+        self.on_checkbox = Checkbutton(
+            self.frame,
+            text="on",
+            variable=self.on,
+            height=5,
+            width=10,
+            indicatoron=FALSE,
+            borderwidth=6)
         self.on_checkbox.pack()
         self.on.trace("w", self.update_on)
 
@@ -33,12 +40,33 @@ class App:
         self.sat = DoubleVar(self.frame, 1.0)
         self.var = DoubleVar(self.frame, 1.0)
 
-        self.hue_slider = Scale(self.frame, orient=HORIZONTAL, label="h", variable=self.hue, length=360, to=360,
-                                resolution=1)
-        self.sat_slider = Scale(self.frame, orient=HORIZONTAL, label="s", variable=self.sat, length=360, to=1,
-                                resolution=0.01)
-        self.var_slider = Scale(self.frame, orient=HORIZONTAL, label="v", variable=self.var, length=360, to=1,
-                                resolution=0.01)
+        self.hue_slider = Scale(
+            self.frame,
+            orient=HORIZONTAL,
+            label="h",
+            variable=self.hue,
+            length=360,
+            width=30,
+            to=360,
+            resolution=1)
+        self.sat_slider = Scale(
+            self.frame,
+            orient=HORIZONTAL,
+            label="s",
+            variable=self.sat,
+            length=360,
+            width=30,
+            to=1,
+            resolution=0.01)
+        self.var_slider = Scale(
+            self.frame,
+            orient=HORIZONTAL,
+            label="v",
+            variable=self.var,
+            length=360,
+            width=30,
+            to=1,
+            resolution=0.01)
         self.hue_slider.pack()
         self.sat_slider.pack()
         self.var_slider.pack()
@@ -95,7 +123,6 @@ class App:
             self.light = HueWrapper()
             self.light.connect()
         self.on.set(self.light.is_on)
-
 
 
 if __name__ == '__main__':
