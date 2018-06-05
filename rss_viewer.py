@@ -4,13 +4,15 @@ import time
 import platform
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from random import shuffle
 
 
 def display_codepen(driver, entry):
-    url = entry['link'].replace('/pen/', '/full/')
-    print(url)
-    driver.get(url)
-    time.sleep(30)
+    pprint.pprint(entry)
+    entry_fullscreen_url = entry['link'].replace('/pen/', '/full/')
+    print(entry_fullscreen_url)
+    driver.get(entry_fullscreen_url)
+    time.sleep(120)
 
 
 if __name__ == '__main__':
@@ -35,12 +37,25 @@ if __name__ == '__main__':
         )
 
     try:
-
         codepen_picks_feed_url = 'https://codepen.io/picks/feed'
-        feed = feedparser.parse(codepen_picks_feed_url)
-        pprint.pprint(feed)
-        for entry in feed.entries:
-            display_codepen(driver, entry)
+        codepen_popular_feed_url = 'https://codepen.io/popular/feed'
+        codepen_recent_feed_url = 'https://codepen.io/recent/feed'
+
+        urls = [
+            codepen_picks_feed_url,
+            codepen_popular_feed_url,
+            codepen_recent_feed_url
+        ]
+        while True:
+            entries = []
+            for url in urls:
+                feed = feedparser.parse(url)
+                entries.extend(feed.entries)
+
+            if any(entries):
+                shuffle(entries)
+                for entry in entries:
+                    display_codepen(driver, entry)
 
     finally:
         driver.quit()
