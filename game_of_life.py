@@ -10,7 +10,7 @@ clock = pygame.time.Clock()
 fps = 10
 # The screen size in pixels
 screen_x = 800
-screen_y = 600  # Height of screen in pixels
+screen_y = 480  # Height of screen in pixels
 
 _platform = platform.platform()
 print(_platform)
