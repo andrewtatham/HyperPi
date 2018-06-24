@@ -203,6 +203,9 @@ class GameOfLife(object):
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     position = pygame.mouse.get_pos()
                     self.grid.handle_click(position)
+                elif event.type == pygame.KEYUP:
+                    if event.key == pygame.K_ESCAPE:
+                        done = True
 
 
 def main():
