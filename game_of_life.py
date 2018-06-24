@@ -1,13 +1,18 @@
 import collections
 import platform
 import random
+import statistics
 
+import psutil
 import pygame
 from pygame.rect import Rect
 
 pygame.init()
 clock = pygame.time.Clock()
-fps = 10
+
+min_fps = 1
+max_fps = 60
+fps = 30
 # The screen size in pixels
 screen_x = 800
 screen_y = 480  # Height of screen in pixels
@@ -170,14 +175,26 @@ class GameOfLife(object):
         self.grid = Grid(init_alive)
 
     def run(self):
+        global fps
         self.grid.render()
         done = False
         activity_monitor = collections.deque(maxlen=5)
+        cpu_monitor = collections.deque(maxlen=30)
         while not done:
             n_changed = self.grid.evolve()
+
+            cpu_percent = psutil.cpu_percent()
+            cpu_monitor.append(cpu_percent)
+            mean_cpu = statistics.mean(cpu_monitor)
+            print("fps: {}, cpu: {}, avg: {}".format(fps, cpu_percent, mean_cpu))
+            if mean_cpu > 25 and fps > min_fps:
+                fps -= 1
+            elif mean_cpu < 5 and fps < max_fps:
+                fps += 1
+
             activity_monitor.append(n_changed)
             if all_same(activity_monitor):
-                self.grid.add_noise(100)
+                self.grid.add_noise(int(n_cells_y * n_cells_y / 3))
 
             self.grid.render()
             for event in pygame.event.get():

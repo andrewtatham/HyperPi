@@ -1,5 +1,7 @@
+psutil
 colour
 pygame
 phue
 feedparser
 selenium
+
