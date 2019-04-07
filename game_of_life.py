@@ -13,6 +13,10 @@ clock = pygame.time.Clock()
 min_fps = 1
 max_fps = 60
 fps = 30
+
+max_cpu = 25
+min_cpu = 5
+
 # The screen size in pixels
 screen_x = 800
 screen_y = 480  # Height of screen in pixels
@@ -187,9 +191,9 @@ class GameOfLife(object):
             cpu_monitor.append(cpu_percent)
             mean_cpu = statistics.mean(cpu_monitor)
             print("fps: {}, cpu: {}, avg: {}".format(fps, cpu_percent, mean_cpu))
-            if mean_cpu > 25 and fps > min_fps:
+            if mean_cpu > max_cpu and fps > min_fps:
                 fps -= 1
-            elif mean_cpu < 5 and fps < max_fps:
+            elif mean_cpu < min_cpu and fps < max_fps:
                 fps += 1
 
             activity_monitor.append(n_changed)
